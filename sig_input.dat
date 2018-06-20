@@ -1,0 +1,19 @@
+5000
+0.662
+0.010
+0.02
+25000
+200
+200
+10
+
+# signal input data:
+# -----------------
+# number of runs
+# voltage [mV]
+# energy variance / resolution [mV]
+# uncertainty [fraction of signal amplitude]
+# decay time [us]
+# rise time [us]
+# baseline [ADC value - fraction of 16384]
+# sample period [ns]

@@ -1,0 +1,19 @@
+10
+25000
+200
+20
+300
+400
+200
+1
+
+# trace parameters:
+# -----------------
+# 1. sample period [ns]
+# 2. TAU [us]
+# 3. trigger risetime [us]
+# 4. trigger flattop [ns]
+# 5. trigger threshold [ADC value]
+# 6. energy risetime [us]
+# 7. energy flattop [ns]
+# 8. flag for trace output (0 or 1)
