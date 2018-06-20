@@ -25,7 +25,8 @@
  program written at the NSCL written by C.Prokop.
  
  ---------------------------------------------------------------------- 
- Adaptation of the above TraceFilter code to accommodate randomised input preamp signals
+ Adaptation of the above TraceFilter code (https://github.com/spaulaus/TraceFilter.git) 
+ to accommodate randomised input preamp signals.
  
  Adapted by JJ van Zyl, June 2018
  
