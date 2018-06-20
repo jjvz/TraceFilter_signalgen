@@ -12,10 +12,9 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         
  GNU General Public License for more details.                          
                                                                           
- You should have received a copy of the GNU General Public License     
- along with this program.  If not, see <http:www.gnu.orglicenses>. 
- ---------------------------------------------------------------------- 
-
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <http:www.gnu.orglicenses>
+ 
  file test.cpp
  brief A test code to test the filtering
  author S. V. Paulauskas
@@ -27,9 +26,14 @@
  
  ---------------------------------------------------------------------- 
  Adaptation of the above TraceFilter code to accommodate randomised input preamp signals
+ 
  Adapted by JJ van Zyl, June 2018
+ 
  Compile with:
  g++ signal_trace.cpp TraceFilter.cpp `root-config --libs --cflags --glibs` -o signal_trace
+ 
  or
+ 
  make -j8
+ 
  To run, provide input signal parameters (file: sig_input.dat), as well as trace parameters  (file: trc_params.dat) 
