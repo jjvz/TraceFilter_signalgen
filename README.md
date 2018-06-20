@@ -1,5 +1,5 @@
 # TraceFilter_signalgen
-/***************************************************************************
+***************************************************************************
   *  Copyright S. V. Paulauskas 2014-2016                                   *
   *                                                                        *
   *  This program is free software: you can redistribute it and/or modify  *
