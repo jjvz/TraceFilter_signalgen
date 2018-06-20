@@ -36,4 +36,4 @@
  
  make -j8
  
- To run, provide input signal parameters (file: sig_input.dat), as well as trace parameters  (file: trc_params.dat) 
+ To run, provide input signal parameters (file: sig_input.dat), as well as trace parameters  (file: trc_params.dat) according to the example files provided.
