@@ -39,6 +39,10 @@
 #include <TH1F.h>
 #include <TFile.h>
 #include <TRandom3.h>
+#include <TROOT.h>
+#include <TCanvas.h>
+#include <TLine.h>
+#include <TTree.h>
 
 #include "TraceFilter.hpp"
 
@@ -121,14 +125,16 @@ double Tfilter(vector<double> &trc) {
     	int j=0;
 	    vector<double> trig  = filter.GetTriggerFilter();
 		TH1D *hTrc = new TH1D("hTrc","Trigger filter trace; time [ns]",trig.size(),0,trig.size());
-    	ofstream output("trig.dat");
+
+		ofstream output("trig.dat");
 		cout<<"...trig.dat output file written..."<<endl;
-    	if(output)
+    	if(output) {
         	for(const auto &i : trig) {
         	    output << i << endl;
 				hTrc->SetBinContent(j,i);
 				j++;
 			}
+		}	    
     	output.close();
     	trcout = true;
     }
@@ -213,6 +219,9 @@ int main()
 	float  volt, amp, err;
 	double Y=0, X=0, Ytmp;
 	double tEn=0;
+	bool plot1 = false;
+	int onlySig = 0;
+	
 //    std::string tempfile = "tempdata.dat";
 
     ifstream infile("sig_input.dat");
@@ -220,15 +229,15 @@ int main()
         cerr << "Cannot open signal input file. Try again, son." << endl;
         exit(1);
     } else 
-          infile >> nruns >> volt0 >> dv >> errf >> TAU_D >> TAU_R >> basel >> Sps;
+          infile >> nruns >> volt0 >> dv >> errf >> TAU_D >> TAU_R >> basel >> Sps >> onlySig;
 
     infile.close();
 
 //	TFile hfile("test-out.root","RECREATE","Demo ROOT file with histogram");
     TH1D *hE = new TH1D("hE","Energy spectrum; channels; counts/ch",1000,0,16000);
     TH1D *hSig = new TH1D("hSig","Preamp signal; time [ns]; amplitude [mV]",NN,0,NN);
+
 //    TH1D *hTrc = new TH1D("hTrc","Trigger filter trace; time [ns]",NN,0,NN);
-    hfile.cd();
 /*
     ofstream polfile;
 	polfile.open(polname.c_str());
@@ -252,7 +261,8 @@ int main()
 				Ytmp = basel + amp*(exp(-1.*(X-x0)/TAU_D) - exp(-1.*(X-x0)/TAU_R));
 				Y = noise(Ytmp, err);	
 			}
-			hSig->SetBinContent(i,Y);
+			if(!plot1) hSig->SetBinContent(i,Y);
+			
             sigarray.push_back(Y);
 //    		fout.write( reinterpret_cast<char*>(&Y), sizeof(double) );
 			if((int)(100.*j/nruns)%5==0) printf("\rOverall progress: %d%%",(int)(100.*j/nruns));
@@ -260,11 +270,18 @@ int main()
 //			polfile << Y <<"\n";
 		}
 	//		fout.close();      
-		tEn = Tfilter(sigarray);
-//		tEn = Tfilter(tempfile);
+		if(!plot1) plot1=true;
+
+		if(!onlySig) tEn = Tfilter(sigarray);
+		else {
+			cout<<"\nWriting signal sample - no trace calculation!\n";
+			break;
+		} 
+
 	    hE->Fill(tEn);
 	}
-	
+
+    hfile.cd();
 	cout<<"\nWriting root file...\n";
 	hfile.Write();
 	hfile.Close();

@@ -1,19 +1,23 @@
-5000
-0.662
-0.010
-0.02
-25000
+500
+0.036
+0.001
+0.01
+400000
+100
 200
-200
-10
+8
+0
 
 # signal input data:
 # -----------------
-# number of runs
-# voltage [mV]
-# energy variance / resolution [mV]
-# uncertainty [fraction of signal amplitude]
-# decay time [us]
-# rise time [us]
-# baseline [ADC value - fraction of 16384]
-# sample period [ns]
+# 1. number of runs
+# 2. voltage [V]
+# 3. energy variance / resolution [V]
+# 4. uncertainty [fraction of signal amplitude - noise!]
+# 5. decay time [ns]
+# 6. rise time [ns]
+# 7. baseline [ADC value - fraction of 16384]
+# 8. sample period [ns]
+# 9. flag for ONLY signal sample output, i.e. no trace calc. (0 or 1)
+
+# plot in root with: {int thresh=80; hSig->Draw(); hTrc->SetLineColor(kRed); hTrc->Draw("same"); TLine *line = new TLine(0,thresh,4000,thresh); line->Draw();}
