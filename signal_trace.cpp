@@ -127,7 +127,7 @@ double Tfilter(vector<double> &trc) {
 		TH1D *hTrc = new TH1D("hTrc","Trigger filter trace; time [ns]",trig.size(),0,trig.size());
 
 		ofstream output("trig.dat");
-		cout<<"...trig.dat output file written..."<<endl;
+		cout<<"\n...trig.dat output file written..."<<endl;
     	if(output) {
         	for(const auto &i : trig) {
         	    output << i << endl;
@@ -205,6 +205,8 @@ int main()
 //	std::string polname = "data/piledupTrc.dat";
 //	std::string logname = "data/logfile.dat";
     int   nruns = 5000;
+    int   npeaks = 1;
+	std::vector<float> volt0_v;
 	float volt0 = 0.662;
 	float    dv = 0.02;
 	float  errf = 0.02;
@@ -221,16 +223,21 @@ int main()
 	double tEn=0;
 	bool plot1 = false;
 	int onlySig = 0;
-	
+	float volt0_tmp=0;
 //    std::string tempfile = "tempdata.dat";
 
     ifstream infile("sig_input.dat");
     if(!infile) {
         cerr << "Cannot open signal input file. Try again, son." << endl;
         exit(1);
-    } else 
-          infile >> nruns >> volt0 >> dv >> errf >> TAU_D >> TAU_R >> basel >> Sps >> onlySig;
-
+    } else {
+          infile >> nruns >> npeaks;
+          for(int nn=0;nn<npeaks;nn++) {
+              infile >> volt0_tmp;
+              volt0_v.push_back(volt0_tmp);
+          }
+          infile >> dv >> errf >> TAU_D >> TAU_R >> basel >> Sps >> onlySig;
+    }
     infile.close();
 
 //	TFile hfile("test-out.root","RECREATE","Demo ROOT file with histogram");
@@ -245,7 +252,11 @@ int main()
     ofstream logfile;
 	logfile.open(logname.c_str());
 */
+
+  for(int jj=0; jj<npeaks; jj++) {
+    volt0 = volt0_v.at(jj);
    	vector<double> sigarray;
+	cout<<"\n Simulating peak no. "<<jj+1<<std::endl;
 	for(int j=0; j<nruns; j++) {
 
 		volt = noise(volt0, dv);
@@ -265,7 +276,7 @@ int main()
 			
             sigarray.push_back(Y);
 //    		fout.write( reinterpret_cast<char*>(&Y), sizeof(double) );
-			if((int)(100.*j/nruns)%5==0) printf("\rOverall progress: %d%%",(int)(100.*j/nruns));
+			if((int)(100.*j/nruns)%5==0) printf("\r\tOverall progress: %d%%",(int)(100.*j/nruns));
 //			logfile << X <<"\t" << Y <<"\n";
 //			polfile << Y <<"\n";
 		}
@@ -280,7 +291,7 @@ int main()
 
 	    hE->Fill(tEn);
 	}
-
+  }
     hfile.cd();
 	cout<<"\nWriting root file...\n";
 	hfile.Write();
